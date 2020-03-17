@@ -1,6 +1,8 @@
+import {IState} from "~/store/todo/interfaces";
+
 const getters = {
-  getProducts(state) {
-    return state.products
+  getNotes(state: IState) {
+    return state.notes
   }
 };
 

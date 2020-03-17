@@ -1,19 +1,30 @@
-import { deleteProducts } from "@/assets/request"
+import { IState, Note, Todo } from "./interfaces";
 
 const mutations = {
-  setProducts(state, newProducts) {
-    state.products = newProducts
+  addNote(state: IState) {
+    const newNote: Note = {
+      title: "New todo list",
+      todos: [{
+        checked: false,
+        label: 'First task'
+      }]
+    };
+
+    state.notes.push(newNote)
   },
 
-  deleteProduct(state, payload) {
-    return new Promise ((resolve, reject) => {
-      deleteProducts().then((msg) => {
-        resolve(msg.message)
-      })
-      .catch((err) => {
-        reject(err.error)
-      })
-    })
+  addTodo(state: IState, payload = <{
+    indexNote: number,
+    newTodo: Todo
+  }> {}) {
+    const index = payload.indexNote,
+          todo = payload.newTodo;
+
+    state.notes[index].todos.push(todo)
+  },
+
+  deleteNote(state: IState, indexStart: number) {
+    state.notes.splice(indexStart, 1)
   }
 };
 
