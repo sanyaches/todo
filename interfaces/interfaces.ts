@@ -1,13 +1,13 @@
 export interface IState {
-  notes: Note[]
+  notes: INote[]
 }
 
-export interface Note {
+export interface INote {
   title: string;
-  todos: Todo[]
+  todos: ITodo[]
 }
 
-export interface Todo {
+export interface ITodo {
   checked: boolean,
   label: string
 }

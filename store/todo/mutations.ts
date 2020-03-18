@@ -1,8 +1,8 @@
-import { IState, Note, Todo } from "./interfaces";
+import { IState, INote, ITodo } from "@/interfaces/interfaces";
 
 const mutations = {
   addNote(state: IState) {
-    const newNote: Note = {
+    const newNote: INote = {
       title: "New todo list",
       todos: [{
         checked: false,
@@ -13,9 +13,13 @@ const mutations = {
     state.notes.push(newNote)
   },
 
+  setNotes(state: IState, payload: INote[]) {
+    state.notes = payload
+  },
+
   addTodo(state: IState, payload = <{
     indexNote: number,
-    newTodo: Todo
+    newTodo: ITodo
   }> {}) {
     const index = payload.indexNote,
           todo = payload.newTodo;

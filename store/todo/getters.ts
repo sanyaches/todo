@@ -1,4 +1,4 @@
-import {IState} from "~/store/todo/interfaces";
+import {IState} from "@/interfaces/interfaces";
 
 const getters = {
   getNotes(state: IState) {

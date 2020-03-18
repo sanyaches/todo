@@ -1,6 +1,16 @@
 <template>
-  <div class="container">
-    <h1>Todo List</h1>
+  <div class="container notes">
+    <h1 class="notes__title">Todo List</h1>
+    <div class="notes-wrapper">
+      <div
+        class="note"
+        v-for="(note, index) in getNotes"
+        :key="index"
+      >
+        <Note :note="note" :index="index"/>
+      </div>
+    </div>
+    <button class="notes__button button--grey" @click="addNote">Add Note</button>
   </div>
 </template>
 
@@ -10,25 +20,54 @@ import {
   Vue
 } from "nuxt-property-decorator";
 import { namespace } from "vuex-class"
+import Note from "@/components/Note.vue";
 
 const todoStore = namespace('todo');
 
 @Component({
-
+  components: {
+    Note
+  }
 })
 export default class IndexPage extends Vue {
+  @todoStore.Action private addNote: any;
+  @todoStore.Getter private getNotes: any;
+  @todoStore.Action private saveNotes: any;
+  @todoStore.Action private loadNotes: any;
 
+  private beforeMount() {
+    this.loadNotes()
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.notes {
+  &-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    width: 60%;
+  }
+
+  &__title {
+    margin: 1rem 0;
+  }
+
+  &__button {
+    margin: 2rem 0 3rem;
+    cursor: pointer;
+  }
 }
 
 .title {
