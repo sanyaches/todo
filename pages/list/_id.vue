@@ -17,12 +17,12 @@
     @todoStore.Getter private getNotes: any;
 
     private mounted() {
-      //wait vuex-persistedstate plugin
-      setTimeout(() => {
+      //wait vuex-persistedstate plugin when refresh
+      setImmediate(() => {
         if (this.$route.params.id >= this.getNotes.length ) {
           this.$router.push('/404')
         }
-      }, 300)
+      })
 
     }
   }
