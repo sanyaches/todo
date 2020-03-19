@@ -3,6 +3,7 @@
     <n-link
       :to="'/list/' + index"
       class="note-item__title"
+      :class="{'note-item--completed': noteCompleted}"
     >
       {{ note.title }}
     </n-link>
@@ -44,8 +45,14 @@
 
   @Component({})
   export default class Note extends Vue {
-    @Prop() private note: INote | undefined;
+    @Prop() private note: any;
     @Prop() private index: number | undefined;
+
+    private get noteCompleted() {
+      const unchecked = this.note.todos.filter((todo: any) => !todo.checked);
+
+      return unchecked.length === 0
+    }
 
     private deleteNote(index: number) {
       this.$emit('delete-confirm', index)
@@ -102,6 +109,10 @@
       right: .5rem;
       cursor: pointer;
     }
+  }
+
+  .note-item--completed {
+    text-decoration: line-through;
   }
 
   .todo-item {
