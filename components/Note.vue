@@ -12,7 +12,7 @@
         class="todo-item"
       >
         <label>
-          <input type="checkbox" v-model="todo.checked">
+          <input type="checkbox" v-model="todo.checked" disabled>
           <span>{{ todo.label }}</span>
         </label>
       </li>

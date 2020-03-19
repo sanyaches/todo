@@ -71,4 +71,8 @@
   .cursor-pointer {
     cursor: pointer;
   }
+
+  .mr-1 {
+    margin-right: 1rem;
+  }
 </style>
