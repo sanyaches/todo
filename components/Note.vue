@@ -1,7 +1,7 @@
 <template>
   <div class="note-item">
     <n-link
-      :to="'/' + index"
+      :to="'/list/' + index"
       class="note-item__title"
     >
       {{ note.title }}
