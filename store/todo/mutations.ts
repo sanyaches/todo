@@ -6,7 +6,7 @@ const mutations = {
       title: "New todo list",
       todos: [{
         checked: false,
-        label: 'First task'
+        label: 'New task'
       }]
     };
 
@@ -15,6 +15,13 @@ const mutations = {
 
   setNotes(state: IState, payload: INote[]) {
     state.notes = payload
+  },
+
+  setNote(state: IState, payload: {
+    newNote: INote,
+    index: number
+  }) {
+    state.notes[payload.index] = payload.newNote
   },
 
   addTodo(state: IState, payload = <{
