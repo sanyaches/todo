@@ -49,12 +49,12 @@
         if (this.action === 'delete') {
           this.deleteNote(this.index)
         }
-        if (this.action === 'cancel') {
-          this.cancelChanges()
+        if (this.action === 'discard') {
+          void(0)
         }
       }
 
-      this.$emit('accepted')
+      this.$emit('accepted', accept)
     }
   }
 </script>
@@ -62,8 +62,10 @@
 <style scoped lang="scss">
   .confirmation {
     position: fixed;
+    top: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    overflow:hidden;
     z-index: 1000000;
 
     background-color: rgba(127, 130, 139, .7);
@@ -83,6 +85,10 @@
       border-radius: 20px;
 
       background-color: #ffffff;
+
+      @media screen and (max-width: 980px) {
+        width: 85%;
+      }
     }
 
     &__title {
@@ -92,6 +98,11 @@
     &__buttons {
       display: flex;
       justify-content: space-around;
+      width: 60%;
+
+      @media screen and (max-width: 480px) {
+        width: 90%;
+      }
     }
   }
 </style>

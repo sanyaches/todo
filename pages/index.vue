@@ -86,7 +86,7 @@
         grid-template-columns: 50% 50%;
       }
       @media screen and (max-width: 980px) {
-        grid-template-columns: 1fr;
+        grid-template-columns: 100%;
         width: 90%;
       }
     }

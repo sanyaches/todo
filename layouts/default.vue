@@ -74,4 +74,8 @@
   .mr-1 {
     margin-right: 1rem;
   }
+
+  .ml-1 {
+    margin-left: 1rem;
+  }
 </style>

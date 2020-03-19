@@ -6,7 +6,7 @@ const mutations = {
       title: "New todo list",
       todos: [{
         checked: false,
-        label: 'New task'
+        label: 'New todo'
       }]
     };
 
@@ -36,7 +36,7 @@ const mutations = {
 
   deleteNote(state: IState, indexStart: number) {
     state.notes.splice(indexStart, 1)
-  }
+  },
 };
 
 export default mutations;

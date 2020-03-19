@@ -1,10 +1,16 @@
 <template>
   <div v-if="!loading" class="note">
-    <label>
+    <label class="note__label">
       <input v-model="note.title" class="note__title">
+      <button
+        class="button--red cursor-pointer ml-1"
+        @click="confirmDelete"
+      >
+        Delete
+      </button>
     </label>
     <ul class="note__todo-list">
-      <li v-for="todo in note.todos">
+      <li v-for="(todo, index) in note.todos" :key="index">
         <label class="note__todo">
           <input
             class="checkbox mr-1"
@@ -16,6 +22,11 @@
             v-model="todo.label"
             type="text"
           >
+          <i
+            title="Delete todo"
+            class="fas fa-trash ml-1 trash cursor-pointer"
+            @click="deleteTodo(index)"
+          />
         </label>
       </li>
     </ul>
@@ -23,7 +34,7 @@
       class="note__todo-list__button button--green cursor-pointer"
       @click="addTodo"
     >
-      Add TODO
+      <i class="fas fa-plus"></i>
     </button>
 
     <div class="note__buttons">
@@ -35,11 +46,17 @@
       </button>
       <button
         class="button--red cursor-pointer note__discard"
-        @click="discardChanges"
+        @click="confirmationDiscardChanges"
       >
         Discard changes
       </button>
     </div>
+    <Confirmation
+      :show="showModalConfirm"
+      :action="modalAction"
+      :index="$route.params.id"
+      @accepted="discardChanges"
+    />
   </div>
 </template>
 
@@ -50,17 +67,24 @@
   } from "nuxt-property-decorator"
   import { namespace } from "vuex-class"
   import Confirmation from "~/components/Confirmation.vue";
+  import Note from "~/components/Note.vue";
 
   const todoStore = namespace('todo');
 
-  @Component({})
+  @Component({
+    components: {
+      Confirmation
+    }
+  })
   export default class extends Vue {
     @todoStore.Getter private getNotes: any;
     @todoStore.Mutation private setNote: any;
+    @todoStore.Mutation private deleteNote: any;
 
-    private loading = true;
-    // private oldVersion = {};
-    private note = {};
+    private loading: boolean = true;
+    private note: object = {};
+    private showModalConfirm: boolean = false;
+    private modalAction: string = '';
 
     private mounted() {
       //wait vuex-persistedstate plugin when refresh
@@ -82,6 +106,10 @@
       })
     }
 
+    private deleteTodo(indexStart: number) {
+      this.note.todos.splice(indexStart,1)
+    }
+
     private saveChanges() {
       this.setNote({
         newNote: this.note,
@@ -90,8 +118,19 @@
       this.$router.push('/')
     }
 
-    private discardChanges() {
-      this.$router.push('/')
+    private confirmDelete() {
+      this.showModalConfirm = true;
+      this.modalAction = 'delete';
+    }
+
+    private confirmationDiscardChanges() {
+      this.modalAction = 'discard';
+      this.showModalConfirm = true;
+    }
+
+    private discardChanges(accept) {
+      this.showModalConfirm = false;
+      if (accept) this.$router.push('/')
     }
   }
 </script>
@@ -113,14 +152,21 @@
       width: 80%;
       padding: 3rem;
     }
+
     @media screen and (max-width: 980px) {
       width: 90%;
       padding: 2rem;
     }
 
+    &__label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
     &__title {
       font-size: 2rem;
-      margin-bottom: 2rem;
+
       @media screen and (max-width: 980px) {
         font-size: 1.4rem;
       }
@@ -163,6 +209,14 @@
         height: 2rem;
       }
 
+      .trash {
+        transition: color .6s;
+
+        &:hover {
+          color: #991111;
+        }
+      }
+
       @media screen and (max-width: 980px) {
         .input {
           font-size: 1rem;
@@ -177,6 +231,7 @@
 
     &__buttons {
       margin-top: 2rem;
+
       @media screen and (max-width: 980px){
         margin-top: 1.8rem;
         display: flex;
