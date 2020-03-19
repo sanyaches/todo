@@ -8,15 +8,19 @@
     </n-link>
     <ul class="note-item__list">
       <li
-        v-for="todo in note.todos"
+        v-for="todo in note.todos.slice(0,3)"
         class="todo-item"
       >
         <label>
           <input type="checkbox" v-model="todo.checked" disabled>
-          <span>{{ todo.label }}</span>
+          <span class="todo-item__text">{{ todo.label }}</span>
         </label>
       </li>
-      <li v-if="note.todos.length > 3">More...</li>
+      <li v-if="note.todos.length > 3">
+        <n-link :to="'/list/' + index">
+          More...
+        </n-link>
+      </li>
     </ul>
     <span
       class="note-item__delete"
@@ -60,6 +64,10 @@
     transition: background-color .5s;
     z-index: 1;
 
+    @media screen and (max-width: 980px) {
+      padding: .7rem;
+    }
+
     &:hover {
       background-color: #f2f2f2;
       .note-item__delete {
@@ -84,6 +92,7 @@
       list-style: none;
       padding-left: 0;
       padding-top: .65rem;
+      height: 150px;
     }
 
     &__delete {
@@ -97,5 +106,9 @@
 
   .todo-item {
     text-align: left;
+    height: 28%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

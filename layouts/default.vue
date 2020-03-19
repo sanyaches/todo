@@ -60,7 +60,6 @@
     color: #991111;
     text-decoration: none;
     padding: 10px 30px;
-    margin-left: 15px;
   }
 
   .button--red:hover {

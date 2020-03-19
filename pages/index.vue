@@ -78,9 +78,17 @@
   .notes {
     &-wrapper {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 33% 33% 33%;
       grid-gap: 1rem;
       width: 60%;
+
+      @media screen and (max-width: 1360px) {
+        grid-template-columns: 50% 50%;
+      }
+      @media screen and (max-width: 980px) {
+        grid-template-columns: 1fr;
+        width: 90%;
+      }
     }
 
     &__title {

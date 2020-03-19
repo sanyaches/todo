@@ -109,9 +109,21 @@
     background: #f2f2f2;
     border: 4px solid;
 
+    @media screen and (max-width: 1360px) {
+      width: 80%;
+      padding: 3rem;
+    }
+    @media screen and (max-width: 980px) {
+      width: 90%;
+      padding: 2rem;
+    }
+
     &__title {
       font-size: 2rem;
       margin-bottom: 2rem;
+      @media screen and (max-width: 980px) {
+        font-size: 1.4rem;
+      }
     }
 
     &__todo-list {
@@ -123,6 +135,15 @@
       &__button {
         margin-top: 1rem;
         align-self: center;
+      }
+
+      @media screen and (max-width: 980px) {
+        width: 100%;
+        padding-left: 0;
+
+        &__button {
+          margin-top: .5rem;
+        }
       }
     }
 
@@ -141,10 +162,32 @@
         width: 2rem;
         height: 2rem;
       }
+
+      @media screen and (max-width: 980px) {
+        .input {
+          font-size: 1rem;
+        }
+
+        .checkbox {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
     }
 
     &__buttons {
       margin-top: 2rem;
+      @media screen and (max-width: 980px){
+        margin-top: 1.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .note__discard {
+          margin-top: 1rem;
+        }
+      }
     }
   }
 </style>
