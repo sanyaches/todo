@@ -128,7 +128,7 @@
       this.showModalConfirm = true;
     }
 
-    private discardChanges(accept) {
+    private discardChanges(accept: boolean) {
       this.showModalConfirm = false;
       if (accept) this.$router.push('/')
     }
@@ -162,6 +162,16 @@
       display: flex;
       align-items: center;
       margin-bottom: 2rem;
+
+      @media screen and (max-width: 480px) {
+        flex-direction: column;
+        justify-content: center;
+
+        .button--red.ml-1 {
+          margin-left: 0;
+          margin-top: 1rem;
+        }
+      }
     }
 
     &__title {
