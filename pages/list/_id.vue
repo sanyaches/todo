@@ -82,7 +82,7 @@
     @todoStore.Mutation private deleteNote: any;
 
     private loading: boolean = true;
-    private note: object = {};
+    private note: any = {};
     private showModalConfirm: boolean = false;
     private modalAction: string = '';
 
