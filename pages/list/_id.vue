@@ -10,8 +10,8 @@
       </button>
     </label>
     <ul class="note__todo-list">
-      <li v-for="(todo, index) in note.todos" :key="index">
-        <label class="note__todo">
+      <li v-for="(todo, index) in note.todos" :key="index" class="note__todo">
+        <label class="note__todo__label">
           <input
             class="checkbox mr-1"
             v-model="todo.checked"
@@ -22,12 +22,12 @@
             v-model="todo.label"
             type="text"
           >
-          <i
-            title="Delete todo"
-            class="fas fa-trash ml-1 trash cursor-pointer"
-            @click="deleteTodo(index)"
-          />
         </label>
+        <i
+          title="Delete todo"
+          class="fas fa-trash ml-1 trash cursor-pointer"
+          @click="deleteTodo(index)"
+        />
       </li>
     </ul>
     <button
@@ -208,6 +208,12 @@
       align-items: center;
       width: 100%;
       margin-bottom: 1rem;
+
+      &__label {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
 
       .input {
         font-size: 1.4rem;
