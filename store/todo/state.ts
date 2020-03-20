@@ -1,7 +1,8 @@
-import {IState} from "@/interfaces/interfaces";
+import { IState, Stack } from "@/interfaces/interfaces";
 
 const state = (): IState => ({
-  notes: []
+  notes: [],
+  stack: new Stack()
 });
 
 export default state;

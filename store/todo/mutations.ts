@@ -37,6 +37,14 @@ const mutations = {
   deleteNote(state: IState, indexStart: number) {
     state.notes.splice(indexStart, 1)
   },
+
+  addChange(state: IState, change: any) {
+    state.stack.push(change)
+  },
+
+  returnChange(state: IState) {
+    state.stack.pop()
+  }
 };
 
 export default mutations;
