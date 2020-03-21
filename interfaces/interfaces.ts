@@ -1,11 +1,11 @@
 export interface IState {
-  notes: INote[],
-  stack: IStack
+  notes: INote[]
 }
 
 export interface INote {
   title: string;
-  todos: ITodo[]
+  todos: ITodo[],
+  stack: IStack
 }
 
 export interface ITodo {
