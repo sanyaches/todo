@@ -139,6 +139,23 @@
       this.setIndex(this.$route.params.id)
     }
 
+    private beforeMount() {
+      document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'z') {
+          event.preventDefault();
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'z') {
+          event.preventDefault();
+        }
+        if (event.metaKey && event.shiftKey && event.key === 'z') {
+          event.preventDefault();
+        }
+        if (event.metaKey && event.key === 'z') {
+          event.preventDefault();
+        }
+      });
+    }
+
     private mounted() {
       //wait vuex-persistedstate plugin when refresh
       setImmediate(() => {
