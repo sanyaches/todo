@@ -1,19 +1,28 @@
 <template>
-  <div v-if="!loading" class="note">
+  <div
+    v-if="!loading"
+    class="note"
+    @keydown.ctrl.z.exact="undo"
+    @keydown.meta.z.exact="undo"
+    @keydown.ctrl.shift.z.exact="redo"
+    @keydown.meta.shift.z.exact="redo"
+  >
     <div class="mb-1">
       <button
-        class="cursor-pointer"
+        class="cursor-pointer button"
         :title=" (!getTopRedo || isInitRedo) ? 'No cancel': 'Cancel change'"
         :class="{ 'button--disable': !getTopRedo || isInitRedo }"
         :disabled="!getTopRedo || isInitRedo"
+        @click="undo"
       >
         <i class="fas fa-undo fa-2x"></i>
       </button>
       <button
-        class="cursor-pointer ml-1"
+        class="cursor-pointer button ml-1"
         :title="!getTopUndo ? 'No repeat': 'Repeat change'"
         :class="{ 'button--disable': !getTopUndo }"
         :disabled="!getTopUndo"
+        @click="redo"
       >
         <i class="fas fa-redo fa-2x"></i>
       </button>
@@ -96,8 +105,17 @@
   })
   export default class extends Vue {
     @todoStore.Getter private getNotes: any;
+    @todoStore.Getter private isInitRedo: any;
+    @todoStore.Getter private getTopRedo: any;
+    @todoStore.Getter private getTopUndo: any;
+
     @todoStore.Mutation private setNote: any;
     @todoStore.Mutation private deleteNote: any;
+    @todoStore.Mutation private initRedoStack: any;
+    @todoStore.Mutation private addChange: any;
+    @todoStore.Mutation private undo: any;
+    @todoStore.Mutation private redo: any;
+
 
     private loading: boolean = true;
     private note: any = {};

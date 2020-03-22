@@ -67,8 +67,20 @@
     background-color: #873333;
   }
 
-  .button--disable {
+  .button.button--disable {
     color: rgba(33,33,33, .3);
+  }
+
+  .button.button--disable:hover {
+    color: rgba(33,33,33, .3);
+  }
+
+  .button {
+    color: #333;
+  }
+
+  .button:hover {
+    color: #000;
   }
 
   .cursor-pointer {

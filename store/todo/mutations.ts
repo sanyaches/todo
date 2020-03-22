@@ -86,8 +86,9 @@ const mutations = {
    * Move canceled change to Undo with buffer
    * @param state
    * @param indexNote
+   * todo: move to actions.ts?
    */
-  cancelChange(state: IState, indexNote: number) {
+  undo(state: IState, indexNote: number) {
     try {
       const buffer = state.notes[indexNote].redoStack.pop();
 
@@ -102,8 +103,9 @@ const mutations = {
    * Move repeated change to Redo with buffer
    * @param state
    * @param indexNote
+   * todo: move to actions.ts?
    */
-  repeatChange(state: IState, indexNote: number) {
+  redo(state: IState, indexNote: number) {
     try {
       const buffer = state.notes[indexNote].undoStack.pop();
 
