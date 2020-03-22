@@ -88,7 +88,7 @@
     <Confirmation
       :show="showModalConfirm"
       :action="modalAction"
-      :index="$route.params.id"
+      :index="getIndex"
       @accepted="discardChanges"
     />
   </div>
@@ -140,18 +140,23 @@
     }
 
     private beforeMount() {
+      const that = this;
       document.addEventListener('keydown', function(event) {
         if (event.ctrlKey && event.key === 'z') {
           event.preventDefault();
-        }
-        if (event.ctrlKey && event.shiftKey && event.key === 'z') {
-          event.preventDefault();
-        }
-        if (event.metaKey && event.shiftKey && event.key === 'z') {
-          event.preventDefault();
+          that.undo();
         }
         if (event.metaKey && event.key === 'z') {
           event.preventDefault();
+          that.undo();
+        }
+        if (event.ctrlKey && event.key === 'Z') {
+          event.preventDefault();
+          that.redo();
+        }
+        if (event.metaKey && event.key === 'Z') {
+          event.preventDefault();
+          that.redo();
         }
       });
     }
