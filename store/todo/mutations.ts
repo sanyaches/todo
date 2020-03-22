@@ -26,7 +26,9 @@ const mutations = {
     state.indexTodo = +index
   },
 
-
+  changeCheckTodo(state: IState) {
+    state.notes[state.indexNote].todos[state.indexTodo].checked = !state.notes[state.indexNote].todos[state.indexTodo].checked;
+  },
 
   setNotes(state: IState, payload: INote[]) {
     state.notes = payload
@@ -36,45 +38,8 @@ const mutations = {
     state.notes[state.indexNote] = newNote
   },
 
-  addTodo(state: IState, newTodo: ITodo) {
-    state.notes[state.indexNote].todos.push(newTodo)
-  },
-
-  deleteTodo(state: IState, indexStart: number) {
-    state.notes[state.indexNote].todos.splice(indexStart,1)
-  },
-
   deleteNote(state: IState, indexStart: number) {
     state.notes.splice(indexStart, 1);
-  },
-
-  /**
-   * Add change to redoStack, when newChange !== undo.top need clear undo
-   * @param state
-   * @param getters
-   * @param newChange
-   * @param payload
-   */
-  addChange({state, getters }: {state: IState, getters: any}, newChange: any) {
-    try {
-      // push new change anyway
-      state.redoStack.push(newChange);
-
-      if (getters['isEmptyUndo']) return;
-      const topUndo = getters['getTopUndo'];
-
-      // Compare topUndo & newChange
-      if (topUndo !== newChange) {
-        state.undoStack.clear();
-      }
-      else {
-        // pop undo, why need repeat some change
-        state.undoStack.pop();
-      }
-    }
-    catch (e) {
-      console.log(e)
-    }
   },
 
   push(state: IState, payload: {
@@ -93,6 +58,16 @@ const mutations = {
       return state.redoStack.pop()
     } else {
       return state.undoStack.pop()
+    }
+  },
+
+  clear(state: IState, payload: {
+    stack?: string
+  }) {
+    if (payload.stack === 'redo') {
+      return state.redoStack.clear()
+    } else {
+      return state.undoStack.clear()
     }
   },
 

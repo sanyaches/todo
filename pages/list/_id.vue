@@ -28,7 +28,7 @@
       </button>
     </div>
     <label class="note__label">
-      <input v-model="getTopRedo.title" class="note__title">
+      <input @input="changeTitle($event.target.value)" :value="getTopRedo.title" class="note__title">
       <button
         class="button--red cursor-pointer ml-1"
         @click="confirmDelete"
@@ -46,12 +46,14 @@
         <label class="note__todo__label">
           <input
             class="checkbox mr-1"
-            v-model="todo.checked"
+            @change="checkTodo"
+            :checked="todo.checked"
             type="checkbox"
           >
           <input
             class="input"
-            v-model="todo.label"
+            @input="changeLabelTodo($event.target.value)"
+            :value="todo.label"
             type="text"
           >
         </label>
@@ -117,13 +119,16 @@
 
     @todoStore.Mutation private setNote: any;
     @todoStore.Mutation private deleteNote: any;
-    @todoStore.Mutation private addChange: any;
     @todoStore.Mutation private undo: any;
     @todoStore.Mutation private redo: any;
     @todoStore.Mutation private setIndex: any;
     @todoStore.Mutation private setIndexTodo: any;
 
     @todoStore.Action private initRedoStack: any;
+    @todoStore.Action private checkTodo: any;
+    @todoStore.Action private changeLabelTodo: any;
+    @todoStore.Action private changeTitle: any;
+    @todoStore.Action private addChange: any;
 
 
     private loading: boolean = true;
@@ -137,27 +142,25 @@
     private mounted() {
       //wait vuex-persistedstate plugin when refresh
       setImmediate(() => {
-        if (this.$route.params.id >= this.getNotes.length ) {
+        if (this.getIndex >= this.getNotes.length ) {
           this.$router.push('/404')
         }
         else {
           this.loading = false;
-          // deep copy
-          // const note = cloneDeep(this.getNotes[this.$route.params.id]);
           this.initRedoStack(this.getNotes[this.getIndex])
         }
       });
     }
 
     private addTodo() {
-      this.$store.commit('todo/addTodo', {
+      this.$store.dispatch('todo/addTodo', {
         label: 'New todo',
         checked: false
       })
     }
 
     private deleteTodo(indexStart: number) {
-      this.$store.commit('todo/deleteTodo', indexStart)
+      this.$store.dispatch('todo/deleteTodo', indexStart)
     }
 
     private saveChanges() {

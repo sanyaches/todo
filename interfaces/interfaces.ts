@@ -50,8 +50,8 @@ export class Stack implements IStack{
     if (this.isFull()) {
       throw new Error('Stack overflow');
     }
-
-    this.items[this.length++] = item;
+    this.items.push(item);
+    this.length++;
   }
 
   pop(): any {
@@ -59,13 +59,13 @@ export class Stack implements IStack{
       throw new Error('Stack underflow');
     }
 
-    return this.items[--this.length];
+    this.length--;
+    return this.items.pop();
   }
 
   clear(): void {
-    while (!this.isEmpty()) {
-      this.pop();
-    }
+    this.length = 0;
+    this.items = [];
   }
 
   top(): any {

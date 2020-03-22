@@ -13,10 +13,6 @@ const getters = {
     return state.indexTodo
   },
 
-  getCheckedTodo(state: IState) {
-
-  },
-
   /**
    *  Return top value of Redo || null
    */
