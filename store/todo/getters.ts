@@ -5,12 +5,16 @@ const getters = {
     return state.notes
   },
 
+  getIndex(state: IState) {
+    return state.indexNote
+  },
+
   /**
    *  Return top value of Redo || null
    */
-  getTopRedo(state: IState, indexNote: number) {
+  getTopRedo(state: IState) {
     try {
-      return state.notes[indexNote].redoStack.top()
+      return state.redoStack.top()
     }
     catch (e) {
       return null
@@ -20,18 +24,18 @@ const getters = {
   /**
    *  Return top value of Undo || null
    */
-  getTopUndo(state: IState, indexNote: number) {
+  getTopUndo(state: IState) {
     try {
-      return state.notes[indexNote].undoStack.top()
+      return state.undoStack.top()
     }
     catch (e) {
       return null
     }
   },
 
-  isInitRedo(state: IState, indexNote: number) {
+  isInitRedo(state: IState) {
     try {
-      return state.notes[indexNote].redoStack.length === 1
+      return state.redoStack.length === 1
     }
     catch (e) {
       return null
@@ -39,9 +43,9 @@ const getters = {
 
   },
 
-  isEmptyUndo(state: IState, indexNote: number) {
+  isEmptyUndo(state: IState) {
     try {
-      return state.notes[indexNote].undoStack.isEmpty()
+      return state.undoStack.isEmpty()
     }
     catch (e) {
       return null

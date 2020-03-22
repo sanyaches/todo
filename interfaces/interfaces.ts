@@ -1,12 +1,13 @@
 export interface IState {
-  notes: INote[]
+  notes: INote[],
+  indexNote: number,
+  undoStack: IStack
+  redoStack: IStack
 }
 
 export interface INote {
   title: string;
   todos: ITodo[],
-  undoStack: IStack
-  redoStack: IStack
 }
 
 export interface ITodo {
@@ -26,19 +27,25 @@ interface IStack {
 }
 
 export class Stack implements IStack{
-  items: any[] = [];
-  length: number = 0;
-  maxRange: number = 128;
+  items: any[];
+  length: number;
+  maxRange: number;
 
-  public isEmpty(): boolean {
+  constructor() {
+    this.items = [];
+    this.length = 0;
+    this.maxRange = 128;
+  }
+
+  isEmpty(): boolean {
     return this.length === 0;
   }
 
-  public isFull(): boolean {
+  isFull(): boolean {
     return this.length === this.maxRange;
   }
 
-  public push(item: any): void {
+  push(item: any): void {
     if (this.isFull()) {
       throw new Error('Stack overflow');
     }
@@ -46,7 +53,7 @@ export class Stack implements IStack{
     this.items[this.length++] = item;
   }
 
-  public pop(): any {
+  pop(): any {
     if (this.isEmpty()) {
       throw new Error('Stack underflow');
     }
@@ -54,13 +61,13 @@ export class Stack implements IStack{
     return this.items[--this.length];
   }
 
-  public clear(): void {
+  clear(): void {
     while (!this.isEmpty()) {
       this.pop();
     }
   }
 
-  public top(): any {
+  top(): any {
     if (this.isEmpty()) {
       throw new Error('Stack is empty');
     }

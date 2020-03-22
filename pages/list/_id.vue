@@ -2,10 +2,10 @@
   <div
     v-if="!loading"
     class="note"
-    @keydown.ctrl.z.exact="undo"
-    @keydown.meta.z.exact="undo"
-    @keydown.ctrl.shift.z.exact="redo"
-    @keydown.meta.shift.z.exact="redo"
+    @keydown.ctrl.90.exact.prevent="undo"
+    @keydown.meta.90.exact.prevent="undo"
+    @keydown.ctrl.shift.90.exact.prevent="redo"
+    @keydown.meta.shift.90.exact.prevent="redo"
   >
     <div class="mb-1">
       <button
@@ -28,7 +28,7 @@
       </button>
     </div>
     <label class="note__label">
-      <input v-model="note.title" class="note__title">
+      <input v-model="getTopRedo.title" class="note__title">
       <button
         class="button--red cursor-pointer ml-1"
         @click="confirmDelete"
@@ -37,7 +37,7 @@
       </button>
     </label>
     <ul class="note__todo-list">
-      <li v-for="(todo, index) in note.todos" :key="index" class="note__todo">
+      <li v-for="(todo, index) in getTopRedo.todos" :key="index" class="note__todo">
         <label class="note__todo__label">
           <input
             class="checkbox mr-1"
@@ -108,19 +108,25 @@
     @todoStore.Getter private isInitRedo: any;
     @todoStore.Getter private getTopRedo: any;
     @todoStore.Getter private getTopUndo: any;
+    @todoStore.Getter private getIndex: any;
 
     @todoStore.Mutation private setNote: any;
     @todoStore.Mutation private deleteNote: any;
-    @todoStore.Mutation private initRedoStack: any;
     @todoStore.Mutation private addChange: any;
     @todoStore.Mutation private undo: any;
     @todoStore.Mutation private redo: any;
+    @todoStore.Mutation private setIndex: any;
+
+    @todoStore.Action private initRedoStack: any;
 
 
     private loading: boolean = true;
-    private note: any = {};
     private showModalConfirm: boolean = false;
     private modalAction: string = '';
+
+    private created() {
+      this.setIndex(this.$route.params.id)
+    }
 
     private mounted() {
       //wait vuex-persistedstate plugin when refresh
@@ -130,27 +136,28 @@
         }
         else {
           this.loading = false;
-          this.note = JSON.parse(JSON.stringify(this.getNotes[this.$route.params.id]));
+          // deep copy
+          // const note = cloneDeep(this.getNotes[this.$route.params.id]);
+          this.initRedoStack({
+            initNote: this.getNotes[this.getIndex]
+          })
         }
       });
     }
 
     private addTodo() {
-      this.note.todos.push({
+      this.$store.commit('addTodo', {
         label: 'New todo',
         checked: false
       })
     }
 
     private deleteTodo(indexStart: number) {
-      this.note.todos.splice(indexStart,1)
+      this.$store.commit('deleteTodo', indexStart)
     }
 
     private saveChanges() {
-      this.setNote({
-        newNote: this.note,
-        index: this.$route.params.id
-      });
+      this.setNote(this.getTopRedo);
       this.$router.push('/')
     }
 
