@@ -1,6 +1,8 @@
 # todo
 
-> My funkadelic Nuxt.js project
+> My todo Nuxt.js project
+>
+> Stack for redo/undo info https://www.quora.com/How-is-stack-implemented-for-undo-and-redo
 
 ## Build Setup
 

@@ -1,4 +1,4 @@
-import { IState, INote, ITodo } from "@/interfaces/interfaces";
+import {IState, INote, ITodo, Stack} from "@/interfaces/interfaces";
 
 const mutations = {
   addNote(state: IState) {
@@ -7,7 +7,9 @@ const mutations = {
       todos: [{
         checked: false,
         label: 'New todo'
-      }]
+      }],
+      undoStack: new Stack(),
+      redoStack: new Stack(),
     };
 
     state.notes.push(newNote)
@@ -35,16 +37,84 @@ const mutations = {
   },
 
   deleteNote(state: IState, indexStart: number) {
-    state.notes.splice(indexStart, 1)
+    state.notes.splice(indexStart, 1);
   },
 
-  addChange(state: IState, change: any) {
-    state.stack.push(change)
+  /**
+   * Init redo stack with first note's state
+   * @param state
+   * @param payload - note and index
+   */
+  initRedoStack(state: IState, payload: { initNote: INote, indexNote: number }) {
+    if(state.notes[payload.indexNote].redoStack.isEmpty()) {
+      state.notes[payload.indexNote].redoStack.push(payload.initNote);
+    }
   },
 
-  returnChange(state: IState) {
-    state.stack.pop()
-  }
+  /**
+   * Add change to redoStack, when newChange !== undo.top need clear undo
+   * @param state
+   * @param getters
+   * @param payload
+   */
+  addChange({state, getters }: {state: IState, getters: any}, payload: {
+    newChange: any,
+    indexNote: number
+  }) {
+    try {
+      // push new change anyway
+      state.notes[payload.indexNote].redoStack.push(payload.newChange);
+
+      if (getters['isEmptyUndo']) return;
+      const topUndo = getters['getTopUndo'];
+
+      // Compare topUndo & newChange
+      if (topUndo !== payload.newChange) {
+        state.notes[payload.indexNote].undoStack.clear();
+      }
+      else {
+        // pop undo, why need repeat some change
+        state.notes[payload.indexNote].undoStack.pop();
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
+  },
+
+  /**
+   * Move canceled change to Undo with buffer
+   * @param state
+   * @param indexNote
+   */
+  cancelChange(state: IState, indexNote: number) {
+    try {
+      const buffer = state.notes[indexNote].redoStack.pop();
+
+      state.notes[indexNote].undoStack.push(buffer)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  },
+
+  /**
+   * Move repeated change to Redo with buffer
+   * @param state
+   * @param indexNote
+   */
+  repeatChange(state: IState, indexNote: number) {
+    try {
+      const buffer = state.notes[indexNote].undoStack.pop();
+
+      state.notes[indexNote].redoStack.push(buffer)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  },
+
+
 };
 
 export default mutations;

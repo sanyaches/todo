@@ -5,7 +5,8 @@ export interface IState {
 export interface INote {
   title: string;
   todos: ITodo[],
-  stack: IStack
+  undoStack: IStack
+  redoStack: IStack
 }
 
 export interface ITodo {
@@ -16,21 +17,32 @@ export interface ITodo {
 interface IStack {
   items: any[],
   length: number,
+  maxRange: number,
   isEmpty(): boolean,
   push(item: any): void,
   pop(): any,
   top(): any,
+  clear(): any
 }
 
 export class Stack implements IStack{
   items: any[] = [];
   length: number = 0;
+  maxRange: number = 2048;
 
   public isEmpty(): boolean {
     return this.length === 0;
   }
 
+  public isFull(): boolean {
+    return this.length === this.maxRange;
+  }
+
   public push(item: any): void {
+    if (this.isFull()) {
+      throw new Error('Stack overflow');
+    }
+
     this.items[this.length++] = item;
   }
 
@@ -40,6 +52,12 @@ export class Stack implements IStack{
     }
 
     return this.items[--this.length];
+  }
+
+  public clear(): void {
+    while (!this.isEmpty()) {
+      this.pop();
+    }
   }
 
   public top(): any {
