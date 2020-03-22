@@ -29,6 +29,10 @@ const getters = {
     }
   },
 
+  isInitRedo(state: IState, indexNote: number) {
+    return state.notes[indexNote].redoStack.length === 1
+  },
+
   isEmptyUndo(state: IState, indexNote: number) {
     try {
       return state.notes[indexNote].undoStack.isEmpty()
