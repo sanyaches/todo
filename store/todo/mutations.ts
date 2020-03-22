@@ -77,6 +77,7 @@ const mutations = {
    */
   undo(state: IState) {
     try {
+      if (state.redoStack.length === 1) return;
       const buffer = state.redoStack.pop();
 
       state.undoStack.push(buffer)
