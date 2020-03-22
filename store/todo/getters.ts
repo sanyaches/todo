@@ -8,7 +8,7 @@ const getters = {
   /**
    *  Return top value of Redo || null
    */
-  getTopChangeForRender(state: IState, indexNote: number) {
+  getTopRedo(state: IState, indexNote: number) {
     try {
       return state.notes[indexNote].redoStack.top()
     }
