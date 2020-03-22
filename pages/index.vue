@@ -45,12 +45,7 @@
     @todoStore.Action private addNote: any;
     @todoStore.Getter private getNotes: any;
     @todoStore.Action private saveNotes: any;
-    @todoStore.Action private loadNotes: any;
     @todoStore.Mutation private deleteNote: any;
-
-    private beforeMount() {
-      this.loadNotes()
-    }
 
     private showModalConfirm = false;
     private modalAction: string = '';

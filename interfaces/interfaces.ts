@@ -1,6 +1,7 @@
 export interface IState {
   notes: INote[],
   indexNote: number,
+  indexTodo: number,
   undoStack: IStack
   redoStack: IStack
 }

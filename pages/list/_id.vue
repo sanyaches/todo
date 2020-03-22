@@ -37,7 +37,12 @@
       </button>
     </label>
     <ul class="note__todo-list">
-      <li v-for="(todo, index) in getTopRedo.todos" :key="index" class="note__todo">
+      <li
+        v-for="(todo, index) in getTopRedo.todos"
+        :key="index"
+        class="note__todo"
+        @mouseover="setIndexTodo(index)"
+      >
         <label class="note__todo__label">
           <input
             class="checkbox mr-1"
@@ -116,6 +121,7 @@
     @todoStore.Mutation private undo: any;
     @todoStore.Mutation private redo: any;
     @todoStore.Mutation private setIndex: any;
+    @todoStore.Mutation private setIndexTodo: any;
 
     @todoStore.Action private initRedoStack: any;
 
@@ -138,22 +144,20 @@
           this.loading = false;
           // deep copy
           // const note = cloneDeep(this.getNotes[this.$route.params.id]);
-          this.initRedoStack({
-            initNote: this.getNotes[this.getIndex]
-          })
+          this.initRedoStack(this.getNotes[this.getIndex])
         }
       });
     }
 
     private addTodo() {
-      this.$store.commit('addTodo', {
+      this.$store.commit('todo/addTodo', {
         label: 'New todo',
         checked: false
       })
     }
 
     private deleteTodo(indexStart: number) {
-      this.$store.commit('deleteTodo', indexStart)
+      this.$store.commit('todo/deleteTodo', indexStart)
     }
 
     private saveChanges() {

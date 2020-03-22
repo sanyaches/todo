@@ -22,6 +22,12 @@ const mutations = {
     state.indexNote = +index
   },
 
+  setIndexTodo(state: IState, index: number) {
+    state.indexTodo = +index
+  },
+
+
+
   setNotes(state: IState, payload: INote[]) {
     state.notes = payload
   },
@@ -46,20 +52,19 @@ const mutations = {
    * Add change to redoStack, when newChange !== undo.top need clear undo
    * @param state
    * @param getters
+   * @param newChange
    * @param payload
    */
-  addChange({state, getters }: {state: IState, getters: any}, payload: {
-    newChange: any,
-  }) {
+  addChange({state, getters }: {state: IState, getters: any}, newChange: any) {
     try {
       // push new change anyway
-      state.redoStack.push(payload.newChange);
+      state.redoStack.push(newChange);
 
       if (getters['isEmptyUndo']) return;
       const topUndo = getters['getTopUndo'];
 
       // Compare topUndo & newChange
-      if (topUndo !== payload.newChange) {
+      if (topUndo !== newChange) {
         state.undoStack.clear();
       }
       else {
