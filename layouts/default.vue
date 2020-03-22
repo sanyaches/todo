@@ -67,6 +67,10 @@
     background-color: #873333;
   }
 
+  .button--disable {
+    color: rgba(33,33,33, .3);
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }
@@ -77,5 +81,9 @@
 
   .ml-1 {
     margin-left: 1rem;
+  }
+
+  .mb-1 {
+    margin-bottom: 1rem;
   }
 </style>

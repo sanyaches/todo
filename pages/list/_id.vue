@@ -1,5 +1,23 @@
 <template>
   <div v-if="!loading" class="note">
+    <div class="mb-1">
+      <button
+        class="cursor-pointer"
+        :title=" (!getTopRedo || isInitRedo) ? 'No cancel': 'Cancel change'"
+        :class="{ 'button--disable': !getTopRedo || isInitRedo }"
+        :disabled="!getTopRedo || isInitRedo"
+      >
+        <i class="fas fa-undo fa-2x"></i>
+      </button>
+      <button
+        class="cursor-pointer ml-1"
+        :title="!getTopUndo ? 'No repeat': 'Repeat change'"
+        :class="{ 'button--disable': !getTopUndo }"
+        :disabled="!getTopUndo"
+      >
+        <i class="fas fa-redo fa-2x"></i>
+      </button>
+    </div>
     <label class="note__label">
       <input v-model="note.title" class="note__title">
       <button

@@ -30,7 +30,13 @@ const getters = {
   },
 
   isInitRedo(state: IState, indexNote: number) {
-    return state.notes[indexNote].redoStack.length === 1
+    try {
+      return state.notes[indexNote].redoStack.length === 1
+    }
+    catch (e) {
+      return null
+    }
+
   },
 
   isEmptyUndo(state: IState, indexNote: number) {
