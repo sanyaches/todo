@@ -28,7 +28,7 @@ interface IStack {
 export class Stack implements IStack{
   items: any[] = [];
   length: number = 0;
-  maxRange: number = 2048;
+  maxRange: number = 128;
 
   public isEmpty(): boolean {
     return this.length === 0;
