@@ -30,7 +30,12 @@ const getters = {
   },
 
   isEmptyUndo(state: IState, indexNote: number) {
-    return state.notes[indexNote].undoStack.isEmpty()
+    try {
+      return state.notes[indexNote].undoStack.isEmpty()
+    }
+    catch (e) {
+      return null
+    }
   }
 };
 
